@@ -1,19 +1,6 @@
 import requests
 
 def get_youtube_transcript(video_url):
-    """
-    Retrieves the transcript of a YouTube video using the youtube-transcript-api library.
-
-    Args:
-        video_url (str): The URL of the YouTube video.
-
-    Returns:
-        str: The full transcript of the video, or an empty string if the request fails.
-
-    Raises:
-        Exception: If an error occurs during the API call.
-    """
-
     try:
         # Install youtube-transcript-api if not already installed
         import pip
