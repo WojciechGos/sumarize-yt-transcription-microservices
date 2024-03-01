@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt && ls
+
 
 # Copy project files
 COPY . .
@@ -14,5 +15,6 @@ COPY . .
 # Expose port (adjust if needed)
 EXPOSE 8000
 
+
 # Run gunicorn server
-CMD ["python", "manage.py", "runserver"]
+CMD ["python", "transcriptService/manage.py", "runserver"]
