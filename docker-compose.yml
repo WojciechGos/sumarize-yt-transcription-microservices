@@ -13,6 +13,7 @@ services:
   # React frontend service
   frontend:
     build: ./frontend  # Build context for the frontend service (replace with your React project directory)
+    stdin_open: true
     ports:
       - "3000:3000"
     volumes:
