@@ -1,12 +1,16 @@
 import requests
+import pip
+from youtube_transcript_api import YouTubeTranscriptApi
+from django.shortcuts import HttpResponse
 
-def get_youtube_transcript(video_url):
+def test(request):
+    return HttpResponse("hello wordl!")
+
+def get_youtube_transcript(request):
     try:
-        # Install youtube-transcript-api if not already installed
-        import pip
-        pip.main(['install', 'youtube-transcript-api'])
-
-        from youtube_transcript_api import YouTubeTranscriptApi
+        # # Install youtube-transcript-api if not already installed
+        # pip.main(['install', 'youtube-transcript-api'])
+        video_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
         with YouTubeTranscriptApi() as transcript_api:
             # Extract video ID from the URL
@@ -24,17 +28,11 @@ def get_youtube_transcript(video_url):
             for line in transcript:
                 full_transcript += line["text"] + "\n"  # Combine lines with newline
 
-            return full_transcript
+            return HttpResponse(full_transcript)
 
     except Exception as e:
         print(f"Unexpected error: {e}")
-        return ""  # Return empty string on unexpected errors
+        return HttpResponse("")  # Return empty string on unexpected errors
 
-# Example usage
-video_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-transcript = get_youtube_transcript(video_url)
 
-if transcript:
-    print(transcript)
-else:
-    print("Failed to retrieve transcript.")
+
