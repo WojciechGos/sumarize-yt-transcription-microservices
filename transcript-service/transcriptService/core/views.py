@@ -3,14 +3,18 @@ import pip
 from youtube_transcript_api import YouTubeTranscriptApi
 from django.shortcuts import HttpResponse
 import re
-from django.views.decorators.http import require_POST
+import json
+# from django.views.decorators.http import require_POST
 
-@require_POST
+# @require_POST
 def get_youtube_transcript(request):
     try:
-        # # Install youtube-transcript-api if not already installed
-        # pip.main(['install', 'youtube-transcript-api'])
-        video_url = request.GET.get("video_url")
+        print(request.GET.get('video_url'))
+        body = json.loads(request.GET.get('video_url'))
+        print("//////////////////////////////////////////////////////")
+        print(body)
+        video_url = body['video_url']
+        print(video_url)
        
         # Extract video ID from the URL
         video_id = get_video_id(video_url)
