@@ -7,3 +7,4 @@ urllib3==2.2.1
 wheel==0.42.0
 youtube-transcript-api==0.6.2
 django
+openai
