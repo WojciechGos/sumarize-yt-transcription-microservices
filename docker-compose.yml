@@ -7,8 +7,8 @@ services:
       - "8000:8000"  # Map container port 8000 to host port 8000
     volumes:
       - ./transcript-service:/app  # Mount your Django project directory within the container
-    environment:
-      - PYTHONUNBUFFERED=1  # Fix Django output buffering issue
+    env_file:
+      - transcript-service/.env
 
   # React frontend service
   frontend:
