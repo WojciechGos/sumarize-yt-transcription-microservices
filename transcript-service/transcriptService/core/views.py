@@ -1,10 +1,18 @@
 import json
 import re
 import requests
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from youtube_transcript_api import YouTubeTranscriptApi
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
 
 @csrf_exempt
 @require_POST
@@ -31,11 +39,14 @@ def get_youtube_transcript(request):
         for line in transcript:
             full_transcript += line["text"] + "\n"  # Combine lines with newline
 
-        return JsonResponse({'transcript': full_transcript}, status=200)
+        reposne = summarize_transcript(full_transcript)
+        # return JsonResponse({'transcript': full_transcript}, status=200)
+        return JsonResponse(reposne, status=200)
 
     except Exception as e:
         print(f"Unexpected error: {e}")
         return JsonResponse("Error processing request", status=500)
+
 
 def get_video_id(url):
     """Extracts the video ID from a YouTube URL.
@@ -59,5 +70,19 @@ def get_video_id(url):
     else:
         return None
 
+
+
+def summarize_transcript(transcript):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": f"summarize this text for me: {transcript}",
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+    print(chat_completion)
+    return chat_completion.choices[0].message.content
 
 
