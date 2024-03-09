@@ -1,13 +1,15 @@
-import React from 'react'
+import React from "react"
 
-import SummarizedContentContainer from '../../components/SummarizedContent/SummarizedContentContainer'
-import NavbarContainer from '../../components/Navbar/NavbarContainer'
+import SummarizedContentContainer from "../../components/SummarizedContent/SummarizedContentContainer"
+import Navbar from "../../components/Navbar/Navbar"
+import Footer from "../../components/Footer/Footer"
 
 const SummarizePage = () => {
   return (
     <>
-    <NavbarContainer/>
-    <SummarizedContentContainer/>
+      <Navbar />
+      <SummarizedContentContainer />
+      <Footer />
     </>
   )
 }

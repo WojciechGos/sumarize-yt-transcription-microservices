@@ -1,8 +1,8 @@
-import React from 'react'
-import SummarizedContent from './SummarizedContent'
+import React from "react"
+import SummarizedContent from "./SummarizedContent"
 
 const SummarizedContentContainer = () => {
-  return <SummarizedContent/>
+  return <SummarizedContent />
 }
 
 export default SummarizedContentContainer
