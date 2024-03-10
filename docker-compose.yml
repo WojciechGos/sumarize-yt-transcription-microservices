@@ -18,9 +18,9 @@ services:
     ports:
       - "8000:8000"  
     volumes:
-      - ./transcript-service:/ap
-    environment:
-      - PYTHONUNBUFFERED=1 
+      - ./transcript-service:/app  # Mount your Django project directory within the container
+    env_file:
+      - transcript-service/.env
 
   frontend:
     build: ./frontend 

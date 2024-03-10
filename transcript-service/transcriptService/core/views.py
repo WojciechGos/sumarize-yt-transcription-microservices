@@ -1,42 +1,51 @@
-import requests
-import pip
-from youtube_transcript_api import YouTubeTranscriptApi
-from django.shortcuts import HttpResponse
-import re
 import json
-# from django.views.decorators.http import require_POST
+import re
+import requests
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from youtube_transcript_api import YouTubeTranscriptApi
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
-# @require_POST
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
+
+@csrf_exempt
+@require_POST
 def get_youtube_transcript(request):
     try:
-        print(request.GET.get('video_url'))
-        body = json.loads(request.GET.get('video_url'))
-        print("//////////////////////////////////////////////////////")
-        print(body)
-        video_url = body['video_url']
-        print(video_url)
-       
-        # Extract video ID from the URL
+        json_data = json.loads(request.body)
+        video_url = json_data.get('video_url', None)
+
+        if not video_url:
+            return JsonResponse("Video URL is required", status=400)
+
         video_id = get_video_id(video_url)
-        print(video_id)
-        # Fetch transcript data, handling potential errors
-        try:
-            transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        except Exception as e:
-            print(f"Error fetching transcript: {e}")
-            return ""  # Return empty string on error
+        if not video_id:
+            return JsonResponse("Invalid YouTube URL", status=400)
+
+        # Fetch the transcript using requests library
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+
+        # print("transcript")
+        # print(transcript)
 
         # Concatenate all transcript lines, maintaining separation
         full_transcript = ""
         for line in transcript:
             full_transcript += line["text"] + "\n"  # Combine lines with newline
 
-        return HttpResponse(full_transcript)
+        reposne = summarize_transcript(full_transcript)
+        # return JsonResponse({'transcript': full_transcript}, status=200)
+        return JsonResponse(reposne, status=200)
 
     except Exception as e:
         print(f"Unexpected error: {e}")
-        return HttpResponse("error")  # Return empty string on unexpected errors
-
+        return JsonResponse("Error processing request", status=500)
 
 
 def get_video_id(url):
@@ -60,3 +69,20 @@ def get_video_id(url):
         return match.group(1)
     else:
         return None
+
+
+
+def summarize_transcript(transcript):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": f"summarize this text for me: {transcript}",
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+    print(chat_completion)
+    return chat_completion.choices[0].message.content
+
+

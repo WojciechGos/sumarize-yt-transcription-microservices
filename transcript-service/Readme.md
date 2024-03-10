@@ -1,0 +1,4 @@
+.env file structure:
+
+PYTHONUNBUFFERED=1
+OPENAI_API_KEY=

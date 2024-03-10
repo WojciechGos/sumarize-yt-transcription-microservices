@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import PATH from './path';
+import HomePage from './pages/HomePage/HomePage';
+import SummarizePage from './pages/SummarizePage/SummarizePage';
+import { Route, Routes } from "react-router-dom"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          tutorial  asd
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Routes>
+        <Route path={PATH.HOME_PAGE} element={<HomePage />} />
+        <Route path={PATH.SUMMARIZE_PAGE} element={<SummarizePage />} />
+      </Routes>
+    </>
+  )
 }
 
 export default App;
