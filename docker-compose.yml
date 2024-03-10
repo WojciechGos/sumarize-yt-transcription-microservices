@@ -29,7 +29,4 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app  
-      - node_modules:/node_modules  
 
-volumes:
-  node_modules:

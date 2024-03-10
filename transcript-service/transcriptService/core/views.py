@@ -40,8 +40,8 @@ def get_youtube_transcript(request):
             full_transcript += line["text"] + "\n"  # Combine lines with newline
 
         reposne = summarize_transcript(full_transcript)
-        # return JsonResponse({'transcript': full_transcript}, status=200)
-        return JsonResponse(reposne, status=200)
+        return JsonResponse({'transcript': full_transcript}, status=200)
+        # return JsonResponse(reposne, status=200)
 
     except Exception as e:
         print(f"Unexpected error: {e}")
