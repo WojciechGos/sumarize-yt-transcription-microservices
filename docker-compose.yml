@@ -1,25 +1,32 @@
 version: "3.9" 
 
 services:
-  transcript-service:
-    build: ./transcript-service  # Build context for the backend service (replace with your Django project directory)
+  psql-db:
+    image: postgres
+    container_name: psql-db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=summarize
     ports:
-      - "8000:8000"  # Map container port 8000 to host port 8000
+      - '5432:5432'
+
+
+  transcript-service:
+    build: ./transcript-service  
+    ports:
+      - "8000:8000"  
     volumes:
       - ./transcript-service:/app  # Mount your Django project directory within the container
     env_file:
       - transcript-service/.env
 
-  # React frontend service
   frontend:
-    build: ./frontend  # Build context for the frontend service (replace with your React project directory)
+    build: ./frontend 
     stdin_open: true
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app  # Mount your React project directory within the container
-      - node_modules:/node_modules  # (Optional) Cache node_modules directory
+      - ./frontend:/app  
 
-volumes:
-  # (Optional) Shared volume for node_modules (if used in frontend service)
-  node_modules:

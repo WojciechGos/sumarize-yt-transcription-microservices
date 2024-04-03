@@ -7,12 +7,15 @@ from django.views.decorators.http import require_POST
 from youtube_transcript_api import YouTubeTranscriptApi
 from openai import OpenAI
 from dotenv import load_dotenv
+from . import prompt
 import os
 
 client = OpenAI(
     # This is the default and can be omitted
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
+
+# TODO handle errors from transcript api
 
 @csrf_exempt
 @require_POST
@@ -39,9 +42,10 @@ def get_youtube_transcript(request):
         for line in transcript:
             full_transcript += line["text"] + "\n"  # Combine lines with newline
 
-        reposne = summarize_transcript(full_transcript)
-        # return JsonResponse({'transcript': full_transcript}, status=200)
-        return JsonResponse(reposne, status=200)
+        response = summarize_transcript(full_transcript)
+        # response = transcript
+        return JsonResponse({'transcript': response}, status=200)
+        # return JsonResponse(reposne, status=200)
 
     except Exception as e:
         print(f"Unexpected error: {e}")
@@ -77,7 +81,7 @@ def summarize_transcript(transcript):
         messages=[
             {
                 "role": "user",
-                "content": f"summarize this text for me: {transcript}",
+                "content": f"{prompt.summarize_prompt}: {transcript}",
             }
         ],
         model="gpt-3.5-turbo",
