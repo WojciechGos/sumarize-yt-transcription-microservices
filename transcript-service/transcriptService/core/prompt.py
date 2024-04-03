@@ -1,0 +1,1 @@
+summarize_prompt="Summarize the text by extracting all significant topics discussed. Provide a concise overview that captures the main ideas, arguments, and themes presented in the text. Identify key concepts, events, or perspectives addressed and arrange them in a coherent manner to convey the essence of the text"

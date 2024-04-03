@@ -26,4 +26,9 @@ public class History {
     private String content;
     @ManyToOne
     private User user;
+
+    public History(String content, User user) {
+        this.content = content;
+        this.user = user;
+    }
 }

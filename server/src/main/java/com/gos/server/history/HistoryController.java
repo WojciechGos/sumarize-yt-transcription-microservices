@@ -9,7 +9,7 @@ import java.security.Principal;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/history")
+@RequestMapping("api/v1/histories")
 public class HistoryController {
 
     @GetMapping

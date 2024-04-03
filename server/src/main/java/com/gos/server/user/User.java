@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "users")
 public class User {
     @SequenceGenerator(
             name = "user_sequence",
@@ -22,6 +23,12 @@ public class User {
     )
     private Long id;
     private String email;
-    private String name;
+    private String firstName;
+    private String surname;
 
+    public User(String email, String firstName, String surname) {
+        this.email = email;
+        this.firstName = firstName;
+        this.surname = surname;
+    }
 }
