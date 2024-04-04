@@ -28,7 +28,7 @@ const Navbar: FC<INavbarProps> = ({ login, register, toggleDrawer, open }) => {
             <Link to={PATH.HELP_PAGE}>
               <Button
                 children={<FiHelpCircle style={{ fontSize: "20px" }} />}
-                handler={toggleDrawer}
+                handler={()=>{}}
               />
             </Link>
             <Button title="login" handler={login} />

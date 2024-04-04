@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { FC } from "react"
+import Button from "../../Button/Button"
 
+export type DrawerItemType = {
+  title: string
+}
 
-const DrawerItem = () => {
+interface IDrawerItemProps {
+  item: DrawerItemType
+}
+
+const DrawerItem: FC<IDrawerItemProps> = ({ item }) => {
   return (
     <div>
-
-      <div>
-
-      </div>
+      <Button title={item.title} handler={()=>{}} />
+      {/* <p>{item.title}</p> */}
     </div>
   )
 }
