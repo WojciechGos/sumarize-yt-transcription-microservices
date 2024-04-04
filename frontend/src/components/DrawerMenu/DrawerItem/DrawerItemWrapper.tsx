@@ -9,9 +9,11 @@ interface IDrawerItemWrapperProps {
 
 const DrawerItemWrapper: FC<IDrawerItemWrapperProps> = ({ items }) => {
   return (
-    <div style={{ width: 300 }}>
+    <div style={{ width: 400 }} 
+      className="overflow-hidden flex flex-col items-center "
+    >
       <AddItem />
-      <div>
+      <div className="w-full">
         {items.map((item) => (
           <DrawerItem item={item} />
         ))}

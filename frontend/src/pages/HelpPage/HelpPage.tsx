@@ -1,12 +1,12 @@
 import React from 'react'
-import Help from '../../components/Help/Help'
 import NavbarContainer from '../../components/Navbar/NavbarContainer'
+import HelpContainer from '../../components/Help/HelpContainer'
 
 const HelpPage = () => {
   return (
     <>
       <NavbarContainer />
-      <Help />
+      <HelpContainer />
     </>
   )
 }
