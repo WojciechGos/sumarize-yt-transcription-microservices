@@ -1,12 +1,12 @@
 import React from "react"
 import SummarizeFormContainer from "../../components/SummarizeForm/SummarizeFormContainer"
-import Navbar from "../../components/Navbar/Navbar"
+import NavbarContainer from "../../components/Navbar/NavbarContainer"
 import Footer from "../../components/Footer/Footer"
 
 const HomePage = () => {
   return (
     <>
-      <Navbar />
+      <NavbarContainer />
       <SummarizeFormContainer />
       <Footer />
     </>
