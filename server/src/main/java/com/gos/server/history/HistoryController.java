@@ -1,5 +1,6 @@
 package com.gos.server.history;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,9 @@ import java.security.Principal;
 public class HistoryController {
 
     @GetMapping
-    public ResponseEntity<String> getHistories(){
-        System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-//        System.out.println(principal);
-
+    public ResponseEntity<String> getHistories(HttpServletRequest request, Principal principal){
+        System.out.println(request);
+        System.out.println(principal);
         return new ResponseEntity<>("siema", HttpStatus.OK);
     }
 

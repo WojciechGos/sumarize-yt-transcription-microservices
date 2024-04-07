@@ -17,9 +17,8 @@ public class SummarizeController {
     private final SummarizeService summarizeService;
 
     @PostMapping
-    public ResponseEntity<String> summarizeVideo(@RequestBody String videoUrl){
+    public ResponseEntity<String> summarizeVideo(@RequestBody String videoUrl) {
 
-        System.out.println(videoUrl);
         String response = summarizeService.summarizeVideo(videoUrl);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);

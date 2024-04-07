@@ -1,7 +1,7 @@
 package com.gos.server.history;
 
 
-import com.gos.server.user.User;
+import com.gos.server.customUserDetails.CustomUserDetails;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +24,17 @@ public class History {
     )
     private Long id;
     private String content;
+    private String url;
     @ManyToOne
-    private User user;
+    private CustomUserDetails user;
 
-    public History(String content, User user) {
+    public History(String content, String url, CustomUserDetails user) {
+        this.content = content;
+        this.url = url;
+        this.user = user;
+    }
+
+    public History(String content, CustomUserDetails user) {
         this.content = content;
         this.user = user;
     }

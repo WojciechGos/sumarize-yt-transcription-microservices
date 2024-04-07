@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Button from "../../Button/Button";
-import { ButtonType } from "../../Button/Button";
+import { EButtonType } from "../../Button/Button";
 import { Link } from "react-router-dom";
 import PATH from "../../../path";
 
@@ -18,7 +18,7 @@ const DrawerItem: FC<IDrawerItemProps> = ({ item }) => {
       <Link to={PATH.SUMMARIZE_PAGE}>
         <Button
           title={item.title}
-          buttonType={ButtonType.LEFT_WHITE}
+          buttonType={EButtonType.LEFT_WHITE}
           handler={() => {}}
         />
         {/* <p>{item.title}</p> */}

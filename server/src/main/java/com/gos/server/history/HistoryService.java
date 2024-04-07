@@ -21,9 +21,13 @@ public class HistoryService {
         return new History();
     }
 
-    public History createHistory(){
+    public String createHistory(String videoUrl, String content){
 
-        return new History();
+        History history = new History(content, videoUrl, null);
+
+
+
+        return "new History()";
     }
 
 }

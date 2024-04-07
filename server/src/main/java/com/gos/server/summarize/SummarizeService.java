@@ -25,6 +25,19 @@ public class SummarizeService {
     private String TRANSCRIPT_API;
 
     public String summarizeVideo(String videoUrl){
+
+        ResponseEntity<String> response = fetchSummarizationData(videoUrl);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            // save the summarization data to history
+
+            return response.getBody();
+        } else {
+            throw new InternalServerErrorException("Error occurred: " + response.getStatusCode());
+        }
+    }
+
+    private ResponseEntity<String> fetchSummarizationData(String videoUrl) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -32,15 +45,7 @@ public class SummarizeService {
         HttpEntity<String> requestEntity = new HttpEntity<>(data, headers);
 
         String apiUrl = TRANSCRIPT_API + "/core/";
-        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, requestEntity, String.class);
-
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody();
-        } else {
-            throw new InternalServerErrorException("Error occurred: " + response.getStatusCode());
-
-        }
-
+        return restTemplate.postForEntity(apiUrl, requestEntity, String.class);
     }
 
     private String createJson(String videoUrl) {
@@ -51,12 +56,10 @@ public class SummarizeService {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            String json = objectMapper.writeValueAsString(jsonMap);
-            return json;
+            return objectMapper.writeValueAsString(jsonMap);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
 }
