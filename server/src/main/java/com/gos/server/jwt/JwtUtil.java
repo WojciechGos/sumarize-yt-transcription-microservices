@@ -33,7 +33,7 @@ public class JwtUtil {
             Map<String, Object> claims) {
         Calendar now = Calendar.getInstance();
         Calendar expirationTime = (Calendar) now.clone();
-        expirationTime.add(Calendar.DAY_OF_YEAR, 15);
+        expirationTime.add(Calendar.DAY_OF_YEAR, 30);
 
         return Jwts
                 .builder()

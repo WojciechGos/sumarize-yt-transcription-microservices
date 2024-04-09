@@ -83,16 +83,16 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/oauth2/authorization/google").permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .oauth2Login(oauth2 -> {
-                            oauth2
-                                    .userInfoEndpoint(userInfo -> {
-                                        userInfo
-                                                .oidcUserService(this.oidcUserService());
-                                    });
-                        }
-                )
+//                .oauth2Login(oauth2 -> {
+//                            oauth2
+//                                    .userInfoEndpoint(userInfo -> {
+//                                        userInfo
+//                                                .oidcUserService(this.oidcUserService());
+//                                    });
+//                        }
+//                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
 
                 .build();

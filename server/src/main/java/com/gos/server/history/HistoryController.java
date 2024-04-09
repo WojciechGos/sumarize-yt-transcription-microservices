@@ -7,17 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/histories")
 public class HistoryController {
 
+    private final HistoryService historyService;
+
     @GetMapping
-    public ResponseEntity<String> getHistories(HttpServletRequest request, Principal principal){
-        System.out.println(request);
-        System.out.println(principal);
-        return new ResponseEntity<>("siema", HttpStatus.OK);
+    public ResponseEntity<List<HistoryDTO>> getHistories(Principal principal){
+
+        return new ResponseEntity<>(historyService.getHistories(principal.getName()), HttpStatus.OK);
     }
 
     @GetMapping("{historyId}")

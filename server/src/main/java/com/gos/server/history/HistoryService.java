@@ -11,9 +11,11 @@ public class HistoryService {
 
     private final HistoryRepository historyRepository;
 
-    public List<History> getHistories(){
+    public List<HistoryDTO> getHistories(String email){
 
-        return  historyRepository.findAll();
+        List<History> histories= historyRepository.findByUserEmail(email);
+        List<HistoryDTO> dto = histories.stream().map(history -> new HistoryDTO(history.getId(), history.getVideoId(), history.getVideoTitle(), history.getContent())).toList();
+        return dto;
     }
 
     public History getHistory(){
@@ -21,9 +23,9 @@ public class HistoryService {
         return new History();
     }
 
-    public String createHistory(String videoUrl, String content){
+    public String createHistory(String videoId, String videoTitle, String content){
 
-        History history = new History(content, videoUrl, null);
+        History history = new History(content, videoId, videoTitle, null);
 
 
 

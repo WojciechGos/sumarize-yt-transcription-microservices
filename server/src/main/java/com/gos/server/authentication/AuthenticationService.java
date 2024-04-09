@@ -26,8 +26,8 @@ public class AuthenticationService {
                         request.password()
                 )
         );
-        final CustomUserDetails user = customUserDetailsService.loadUserByEmail(request.email());
-
+//        final CustomUserDetails user = customUserDetailsService.loadUserByEmail(request.email());
+        final CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         if(user != null) {
             return jwtUtil.issueToken(user.getEmail(), user.getAuthorities()
                     .stream()

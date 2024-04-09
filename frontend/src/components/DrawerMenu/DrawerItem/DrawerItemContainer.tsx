@@ -14,7 +14,8 @@ const DrawerItemContainer = () => {
   useEffect(() => {
     axiosInstance.get('/api/v1/histories').then((response) => {
       const data = response.data
-      setItems(data)
+      console.log(data)
+      // setItems(data)
     })
   },[])
 
