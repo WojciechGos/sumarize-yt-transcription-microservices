@@ -3,9 +3,13 @@ package com.gos.server.history;
 
 import com.gos.server.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -23,12 +27,15 @@ public class History {
             generator = "history_sequence"
     )
     private Long id;
+    @Column(columnDefinition = "TEXT")
+    @NotBlank(message = "Content cannot be blank")
+    @NotNull(message = "Content cannot be null")
     private String content;
-    @ManyToOne
-    private User user;
+    private String videoId;
+    private Date date = new Date(System.currentTimeMillis());
 
-    public History(String content, User user) {
+    public History(String content, String videoId) {
         this.content = content;
-        this.user = user;
+        this.videoId = videoId;
     }
 }

@@ -1,13 +1,15 @@
 import React from 'react'
-import Help from '../../components/Help/Help'
-import Navbar from '../../components/Navbar/Navbar'
+import NavbarContainer from '../../components/Navbar/NavbarContainer'
+import HelpContainer from '../../components/Help/HelpContainer'
+import FooterContainer from '../../components/Footer/FooterContainer'
 
 const HelpPage = () => {
   return (
-<>
-    <Navbar/>
-    <Help/>
-</>
+    <>
+      <NavbarContainer />
+      <HelpContainer />
+      <FooterContainer/>
+    </>
   )
 }
 

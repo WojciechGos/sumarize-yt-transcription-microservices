@@ -6,25 +6,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/histories")
 public class HistoryController {
 
-    @GetMapping
-    public ResponseEntity<String> getHistories(){
-        System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-//        System.out.println(principal);
+    private final HistoryService historyService;
 
-        return new ResponseEntity<>("siema", HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<HistoryDTO>> getHistories(Principal principal){
+
+        return new ResponseEntity<>(historyService.getHistoriesByUserEmail(principal.getName()), HttpStatus.OK);
     }
 
     @GetMapping("{historyId}")
-    public ResponseEntity<String> getHistoryById(
-            @PathVariable("historyId") String historyId
+    public ResponseEntity<HistoryDTO> getHistoryById(
+            @PathVariable("historyId") Long historyId,
+            Principal principal
     ){
-        return new ResponseEntity<>("simea ", HttpStatus.OK);
+        HistoryDTO history = historyService.getUserHistory(principal.getName(), historyId);
+        return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
 }

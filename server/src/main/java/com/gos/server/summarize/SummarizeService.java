@@ -1,8 +1,13 @@
 package com.gos.server.summarize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gos.server.exception.BadRequestException;
 import com.gos.server.exception.InternalServerErrorException;
+import com.gos.server.history.History;
 import com.gos.server.history.HistoryService;
+import com.gos.server.user.User;
+import com.gos.server.user.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -21,42 +26,39 @@ public class SummarizeService {
 
     private final HistoryService historyService;
     private final RestTemplate restTemplate;
-    @Value("${api.transcript.url}")
+    private final SummarizeUtils summarizeUtils;
+    private final UserService userService;
+    @Value("${api.microservice.transcript.url}")
     private String TRANSCRIPT_API;
 
-    public String summarizeVideo(String videoUrl){
+    @Transactional
+    public History summarizeVideo(String email, String videoUrl){
+
+        ResponseEntity<String> response = fetchSummarizationData(videoUrl);
+
+        // If the response is successful, create a history object and append it to the user's history
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String transcript = summarizeUtils.decodeJson(response.getBody());
+            String videoId = summarizeUtils.getVideoId(videoUrl);
+            History history = historyService.createHistory(videoId, transcript);
+            userService.appendHistory(email, history);
+            return history;
+        } else {
+            throw new BadRequestException("Error occurred: " + response.getBody());
+        }
+
+    }
+
+    private ResponseEntity<String> fetchSummarizationData(String videoUrl) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String data = createJson(videoUrl);
+        String data = summarizeUtils.encodeJson(videoUrl);
         HttpEntity<String> requestEntity = new HttpEntity<>(data, headers);
 
         String apiUrl = TRANSCRIPT_API + "/core/";
-        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, requestEntity, String.class);
-
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody();
-        } else {
-            throw new InternalServerErrorException("Error occurred: " + response.getStatusCode());
-
-        }
-
+        return restTemplate.postForEntity(apiUrl, requestEntity, String.class);
     }
 
-    private String createJson(String videoUrl) {
-
-        Map<String, String> jsonMap = new HashMap<>();
-        jsonMap.put("video_url", videoUrl);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            String json = objectMapper.writeValueAsString(jsonMap);
-            return json;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
 }

@@ -1,5 +1,6 @@
 import React, { FC } from "react"
 import classnames from "classnames"
+
 interface ISummarizeFormProps {
   goToSummarizedContent: (e: React.FormEvent) => void
   videoLink: string
