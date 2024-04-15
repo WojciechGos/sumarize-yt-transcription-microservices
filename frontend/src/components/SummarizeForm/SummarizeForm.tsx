@@ -1,11 +1,15 @@
-import React, { FC } from "react"
-import classnames from "classnames"
+import React, { FC } from "react";
+import classnames from "classnames";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface ISummarizeFormProps {
-  goToSummarizedContent: (e: React.FormEvent) => void
-  videoLink: string
-  updateVideoLinkForm: (value:string)=>void
-  showError: boolean
+  goToSummarizedContent: (e: React.FormEvent) => void;
+  videoLink: string;
+  updateVideoLinkForm: (value: string) => void;
+  showError: boolean;
+  isLogged: boolean;
+  errorMessage: string;
+  loadingSpin: boolean;
 }
 
 const SummarizeForm: FC<ISummarizeFormProps> = ({
@@ -13,6 +17,9 @@ const SummarizeForm: FC<ISummarizeFormProps> = ({
   videoLink,
   updateVideoLinkForm,
   showError,
+  isLogged,
+  errorMessage,
+  loadingSpin
 }) => {
   return (
     <main className="min-h-full flex items-center justify-center py-12 ">
@@ -29,7 +36,7 @@ const SummarizeForm: FC<ISummarizeFormProps> = ({
                 onChange={(e) => updateVideoLinkForm(e.target.value)}
                 required
                 className={classnames(
-                  "appearance-none rounded-none relative block",
+                  "appearance-none rounded-none relative block py-5 px-5 text-lg",
                   "w-full px-3 py-2 border border-gray-300",
                   "placeholder-gray-500 rounded-t-md",
                   "focus:outline-none focus:ring-indigo-500",
@@ -39,8 +46,29 @@ const SummarizeForm: FC<ISummarizeFormProps> = ({
                       showError,
                   }
                 )}
-                placeholder="https://www.youtube.com/watch?v=video_id"
+                placeholder={
+                  isLogged
+                    ? "https://www.youtube.com/watch?v=video_id"
+                    : "Make sure you are signed in."
+                }
               />
+              {showError ? (
+                <div className="mt-4 text-red p-3 rounded border border-red-700 shadow-lg">
+                  {
+                    errorMessage
+                  }
+                </div>
+              ) : (
+                <></>
+              )}
+              {
+                loadingSpin?(
+
+                  <CircularProgress/>
+                ):(
+                  <></>
+                )
+              }
             </div>
           </div>
           <div className="flex justify-center">
@@ -58,7 +86,7 @@ const SummarizeForm: FC<ISummarizeFormProps> = ({
         </form>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default SummarizeForm
+export default SummarizeForm;

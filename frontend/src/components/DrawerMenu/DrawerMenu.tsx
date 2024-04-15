@@ -11,7 +11,7 @@ const DrawerMenu: FC<IDrawerMenuProps> = ({ open, toggleDrawer }) => {
   return (
     <div>
       <Drawer open={open} onClose={toggleDrawer} >
-        <DrawerItemContainer/>
+        <DrawerItemContainer toggleDrawer={toggleDrawer}/>
       </Drawer>
     </div>
   )

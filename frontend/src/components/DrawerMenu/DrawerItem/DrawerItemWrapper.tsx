@@ -4,10 +4,11 @@ import AddItem from "./AddItem"
 import { DrawerItemType } from "./DrawerItem"
 
 interface IDrawerItemWrapperProps {
-  items: DrawerItemType[]
+  items: DrawerItemType[],
+  toggleDrawer: () => void
 }
 
-const DrawerItemWrapper: FC<IDrawerItemWrapperProps> = ({ items }) => {
+const DrawerItemWrapper: FC<IDrawerItemWrapperProps> = ({ items, toggleDrawer }) => {
   return (
     <div style={{ width: 400 }} 
       className="overflow-hidden flex flex-col items-center "
@@ -15,7 +16,7 @@ const DrawerItemWrapper: FC<IDrawerItemWrapperProps> = ({ items }) => {
       <AddItem />
       <div className="w-full">
         {items.map((item) => (
-          <DrawerItem item={item} />
+          <DrawerItem item={item} toggleDrawer={toggleDrawer} />
         ))}
       </div>
     </div>

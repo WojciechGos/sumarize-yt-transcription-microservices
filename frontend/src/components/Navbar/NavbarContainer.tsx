@@ -8,10 +8,14 @@ const NavbarContainer = () => {
     setOpen(!open);
   }
 
+  const isLogged = localStorage.getItem("token") !== null;
 
-
+  const logOut = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  }
   return (
-    <Navbar toggleDrawer={toggleDrawer} open={open}/>
+    <Navbar toggleDrawer={toggleDrawer} open={open} isLogged={isLogged} logOut={logOut}/>
   )
 }
 

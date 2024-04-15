@@ -9,9 +9,31 @@ import DrawerMenuContainer from "../DrawerMenu/DrawerMenuContainer";
 interface INavbarProps {
   toggleDrawer: () => void;
   open: boolean;
+  isLogged: boolean;
+  logOut: () => void;
 }
 
-const Navbar: FC<INavbarProps> = ({ toggleDrawer, open }) => {
+const Navbar: FC<INavbarProps> = ({ toggleDrawer, open, isLogged, logOut }) => {
+
+  const authSection = (
+    <>
+      <Link to={PATH.SIGN_IN_PAGE}>
+        <Button title="Sign in" handler={() => {}} />
+      </Link>
+      {/* <Link to={PATH.SIGN_UP_PAGE}>
+        <Button title="sign up" handler={() => {}} />
+      </Link> */}
+    </>
+  );
+
+  const logoutSection = (
+    <>
+      <Button title="Sign out" handler={logOut} />
+    </>
+  )
+
+  const section = isLogged ? logoutSection : authSection;
+
   return (
     <>
       <nav className="containter bg-indigo-800 border-zinc-950 border-b p-2 ">
@@ -29,12 +51,7 @@ const Navbar: FC<INavbarProps> = ({ toggleDrawer, open }) => {
                 handler={() => {}}
               />
             </Link>
-            <Link to={PATH.SIGN_IN_PAGE}>
-              <Button title="Sign in" handler={()=>{}} />
-            </Link>
-            <Link to={PATH.SIGN_UP_PAGE}>
-              <Button title="sign up" handler={() => {}} />
-            </Link>
+            {section}
           </div>
         </div>
       </nav>

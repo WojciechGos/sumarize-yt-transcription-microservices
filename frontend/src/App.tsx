@@ -14,7 +14,7 @@ function App() {
     <>
       <Routes>
         <Route path={PATH.HOME_PAGE} element={<HomePage />} />
-        <Route path={PATH.SUMMARIZE_PAGE} element={<SummarizePage />} />
+        <Route path={`${PATH.SUMMARIZE_PAGE}/:id`} element={<SummarizePage />} />
         <Route path={PATH.HELP_PAGE} element={<HelpPage />} />
         <Route path={PATH.SIGN_IN_PAGE} element={<SignInPage />} />
         <Route path={PATH.SIGN_UP_PAGE} element={< SignUpPage />} />
