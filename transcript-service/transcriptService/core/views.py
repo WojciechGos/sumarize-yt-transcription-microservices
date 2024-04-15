@@ -32,7 +32,11 @@ def get_youtube_transcript(request):
             return JsonResponse("Invalid YouTube URL", status=400)
 
         # Fetch the transcript using requests library
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+
+        try:
+            transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
 
         # print("transcript")
         # print(transcript)
