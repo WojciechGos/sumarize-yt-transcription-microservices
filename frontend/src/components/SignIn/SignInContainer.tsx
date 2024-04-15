@@ -2,8 +2,12 @@ import React from "react";
 import SignIn from "./SignIn";
 import { useState } from "react";
 import axiosInstance from "../../service/axiosConfig";
+import { useNavigate } from "react-router-dom";
+
 
 const SignInContainer = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +24,8 @@ const SignInContainer = () => {
         email,
         password,
       });
-      localStorage.setItem("token", response.data);
+      localStorage.setItem("token", response.data.token);
+      navigate("/");
     } catch (e) {
       console.log(e);
     }

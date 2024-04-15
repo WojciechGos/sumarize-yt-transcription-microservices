@@ -2,8 +2,8 @@ package com.gos.server.history;
 
 public record HistoryDTO(
         Long id,
-        String videoID,
-        String videoTitle,
-        String content
+        String content,
+        String videoId,
+        String date
 ) {
 }

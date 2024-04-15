@@ -7,5 +7,4 @@ import java.util.List;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long> {
-    List<History> findByUserEmail(String email);
 }

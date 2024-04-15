@@ -134,9 +134,9 @@ const SignUp: FC<ISignUpProps> = ({
           </Link>
         </p>
       </div>
-      <div className="my-4">
+      {/* <div className="my-4">
         <GoogleButtonContainer />
-      </div>
+      </div> */}
     </div>
   );
 };

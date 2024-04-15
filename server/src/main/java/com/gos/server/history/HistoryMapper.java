@@ -1,16 +1,12 @@
 package com.gos.server.history;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import java.text.SimpleDateFormat;
 
-@RequiredArgsConstructor
-@Service
 public class HistoryMapper {
 
-    public HistoryDTO toDTO(History history) {
-        return new HistoryDTO(history.getId(), history.getVideoId(), history.getVideoTitle(), history.getContent());
+    public static HistoryDTO toDTO(History history){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return new HistoryDTO(history.getId(), history.getContent(), history.getVideoId(), formatter.format(history.getDate()));
     }
-
-
 
 }

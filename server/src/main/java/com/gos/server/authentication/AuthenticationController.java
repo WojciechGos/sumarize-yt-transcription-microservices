@@ -18,15 +18,16 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<String> signin(@RequestBody SignInRequest signInRequest) throws BadRequestException {
+    public ResponseEntity<AuthenticationResponse> signin(@RequestBody SignInRequest signInRequest) throws BadRequestException {
         System.out.println(signInRequest.email());
-        String token = authenticationService.signin(signInRequest);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        System.out.println(signInRequest.password());
+        AuthenticationResponse response = authenticationService.signin(signInRequest);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @PostMapping("/sign-up")
-    public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest) throws BadRequestException {
+    public ResponseEntity<AuthenticationResponse> signup(@RequestBody SignUpRequest signUpRequest) {
         System.out.println(signUpRequest.email());
-        String token = authenticationService.signup(signUpRequest);
+        AuthenticationResponse token = authenticationService.signup(signUpRequest);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }

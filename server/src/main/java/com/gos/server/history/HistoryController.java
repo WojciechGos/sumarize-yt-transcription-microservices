@@ -1,6 +1,5 @@
 package com.gos.server.history;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +18,16 @@ public class HistoryController {
     @GetMapping
     public ResponseEntity<List<HistoryDTO>> getHistories(Principal principal){
 
-        return new ResponseEntity<>(historyService.getHistories(principal.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(historyService.getHistoriesByUserEmail(principal.getName()), HttpStatus.OK);
     }
 
     @GetMapping("{historyId}")
-    public ResponseEntity<String> getHistoryById(
-            @PathVariable("historyId") String historyId
+    public ResponseEntity<HistoryDTO> getHistoryById(
+            @PathVariable("historyId") Long historyId,
+            Principal principal
     ){
-        return new ResponseEntity<>("simea ", HttpStatus.OK);
+        HistoryDTO history = historyService.getUserHistory(principal.getName(), historyId);
+        return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
 }

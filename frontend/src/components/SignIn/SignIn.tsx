@@ -21,7 +21,7 @@ const SignIn : FC<ISignInProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center mt-20">
-      <h1 className="text-3xl font-bold mb-4">Sign up</h1>
+      <h1 className="text-3xl font-bold mb-4">Sign in</h1>
 
       <div className="w-full max-w-xs">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={(e)=> e.preventDefault()}>
@@ -67,7 +67,7 @@ const SignIn : FC<ISignInProps> = ({
             />
           </div>
         </form>
-        <p className="text-center text-gray-500 text-xs">
+        {/* <div className="text-center text-gray-500 text-xs">
           Don't have an account?
           <Link to={PATH.SIGN_UP_PAGE}>
             <div className="text-blue-500 hover:text-blue-700">
@@ -79,11 +79,11 @@ const SignIn : FC<ISignInProps> = ({
               </button>
             </div>
           </Link>
-        </p>
+        </div> */}
       </div>
-      <div className="my-4">
+      {/* <div className="my-4">
         <GoogleButtonContainer/>
-      </div>
+      </div> */}
     </div>
   );
 };

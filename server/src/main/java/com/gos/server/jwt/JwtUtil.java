@@ -1,11 +1,9 @@
 package com.gos.server.jwt;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -16,29 +14,38 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class JwtUtil {
+public class JWTUtil {
 
-    @Value("${jwt.secret}")
-    private String SECRET_KEY;
+    private static final String SECRET_KEY =
+            "foobar_123456789_foobar_123456789_foobar_123456789_foobar_123456789";
 
-    public String extractEmail(String token) {
-        return getSubject(token);
+
+    public String issueToken(String subject) {
+        return issueToken(subject, Map.of());
+    }
+
+    public String issueToken(String subject, String ...scopes) {
+        return issueToken(subject, Map.of("scopes", scopes));
     }
 
     public String issueToken(String subject, List<String> scopes) {
         return issueToken(subject, Map.of("scopes", scopes));
     }
+
+    public Long getExpirationDate(String token) {
+        return getClaims(token).getExpiration().getTime();
+    }
     public String issueToken(
-            String email,
+            String subject,
             Map<String, Object> claims) {
         Calendar now = Calendar.getInstance();
         Calendar expirationTime = (Calendar) now.clone();
-        expirationTime.add(Calendar.DAY_OF_YEAR, 30);
+        expirationTime.add(Calendar.DAY_OF_YEAR, 15);
 
         return Jwts
                 .builder()
                 .setClaims(claims)
-                .setSubject(email)
+                .setSubject(subject)
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(expirationTime.getTime())
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
@@ -62,9 +69,12 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public boolean isTokenValid(String jwt, String email) {
+    public boolean isTokenValid(String jwt, String username) {
         String subject = getSubject(jwt);
-        return subject.equals(email) && !isTokenExpired(jwt);
+        System.out.println(subject);
+        System.out.println(subject.equals(username));
+        System.out.println(!isTokenExpired(jwt));
+        return subject.equals(username) && !isTokenExpired(jwt);
     }
 
     private boolean isTokenExpired(String jwt) {
