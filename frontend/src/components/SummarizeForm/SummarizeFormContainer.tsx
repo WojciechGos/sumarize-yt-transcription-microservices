@@ -9,7 +9,8 @@ const SummarizeFormContainer = () => {
   const navigate = useNavigate();
   const [videoLink, setVideoLink] = useState<string>("");
   const [showError, setShowError] = useState<boolean>(false);
-
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [loadingSpin, setLoadingSpin] = useState<boolean>(false);
   const updateVideoLinkForm = (value: string) => {
     setVideoLink(value);
     if (value.trim() === "") setShowError(false);
@@ -21,25 +22,38 @@ const SummarizeFormContainer = () => {
 
     return youtubeRegex.test(text);
   };
+  const isLogged = localStorage.getItem("token") !== null;
+
+
 
   const goToSummarizedContent = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isYouTubeUrl(videoLink)) {
       setShowError(true);
+      setErrorMessage("Please enter a valid youtube video link.");
       return;
     }
 
-    try {
-      const response = await axiosInstance.post("/api/v1/summarize", {
-        video_url: videoLink,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    if(isLogged === false){
+      setShowError(true);
+      setErrorMessage("Make sure you are signed in.")
+      return
     }
 
-    navigate(PATH.SUMMARIZE_PAGE);
+    try {
+      setLoadingSpin(true);
+      const response = await axiosInstance.post("/api/v1/summarize", {
+        videoUrl: videoLink,
+      });
+      setLoadingSpin(false);
+      console.log(response);
+      navigate(`${PATH.SUMMARIZE_PAGE}/${response.data.id}`);
+    } catch (error) {
+      setLoadingSpin(false);
+      setErrorMessage("An error occurred. Make sure the video has enabled subtitles");
+      console.log(error);
+    }
   };
 
   return (
@@ -48,6 +62,9 @@ const SummarizeFormContainer = () => {
       videoLink={videoLink}
       updateVideoLinkForm={updateVideoLinkForm}
       showError={showError}
+      isLogged={isLogged}
+      errorMessage={errorMessage}
+      loadingSpin={loadingSpin}
     />
   );
 };

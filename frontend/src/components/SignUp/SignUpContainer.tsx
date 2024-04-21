@@ -38,14 +38,20 @@ const SignUpContainer = () => {
       return;
     }
 
-    const response = await axiosInstance.post("/api/v1/sign-up", {
-      firstName,
-      lastName,
-      email,
-      password,
-    });
-    
-    localStorage.setItem("token", response.data);
+    try {
+      const response = await axiosInstance.post("/api/v1/sign-up", {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", response.data.tokne);
+      window.location.reload();
+      
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
