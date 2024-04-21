@@ -12,9 +12,21 @@ services:
     ports:
       - '5432:5432'
 
+  server:
+    image: server
+    container_name: server
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - psql-db
+
 
   transcript-service:
     build: ./transcript-service  
+    container_name: transcript_service
     ports:
       - "8000:8000"  
     volumes:
@@ -23,10 +35,13 @@ services:
       - transcript-service/.env
 
   frontend:
-    build: ./frontend 
-    stdin_open: true
+    container_name: frontend_app
+    image: frontend:latest
+    build:
+      context: frontend
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app  
+      - '3000:3000'
+    depends_on:
+      - server
 
